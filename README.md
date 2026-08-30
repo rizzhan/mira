@@ -7,7 +7,7 @@ A true-black, frosted-glass photobooth that runs **entirely client-side**. No ba
 **Live:** `https://mira.vercel.app` *(replace with your Vercel URL)*  
 **Repo:** `github.com/rizzhan/mira`
 
-![MIRA Preview](private/preview.png)
+
 
 ---
 
