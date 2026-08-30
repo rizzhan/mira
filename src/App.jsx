@@ -340,7 +340,7 @@ export default function App() {
           </a>
           <a
             className="footer-link"
-            href="https://linkedin.com"
+            href="https://www.linkedin.com/in/rishan-paul-0a2b36343/"
             target="_blank"
             rel="noopener noreferrer"
             aria-label="LinkedIn"
