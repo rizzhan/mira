@@ -30,10 +30,13 @@ export default function FilterPicker({ value, onChange }) {
                 type="button"
                 className={'swatch' + (value === f.id ? ' active' : '')}
                 onClick={() => onChange(f.id)}
-                title={f.label}
+                aria-label={f.label}
               >
                 <span className="swatch-dot" style={{ backgroundImage: `url(${thumbs[f.id]})` }} />
                 <span className="swatch-label">{f.label}</span>
+                <span className="swatch-tooltip" role="tooltip">
+                  {f.label}
+                </span>
               </button>
             ))}
           </div>

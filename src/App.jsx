@@ -5,6 +5,8 @@ import StickerBar from './components/StickerBar'
 import Frames from './components/Frames'
 import PreviewModal from './components/PreviewModal'
 import GlassSelect from './components/GlassSelect'
+import CursorGlow from './components/CursorGlow'
+import LoadingScreen from './components/LoadingScreen'
 import { capturePhoto, composeStrip, createSamplePhoto, FILTERS, STRIP_SIZES } from './lib/photobooth'
 import './App.css'
 
@@ -30,6 +32,7 @@ export default function App() {
   const [previewOpen, setPreviewOpen] = useState(false)
   const [previewUrl, setPreviewUrl] = useState('')
   const [previewBusy, setPreviewBusy] = useState(false)
+  const [loading, setLoading] = useState(true)
 
   const videoRef = useRef(null)
   const streamRef = useRef(null)
@@ -247,9 +250,12 @@ export default function App() {
   )
 
   return (
-    <div className="app">
+    <>
+      {loading && <LoadingScreen onDone={() => setLoading(false)} />}
+      <CursorGlow />
+      <div className="app">
       <header className="hero">
-        <h1>Photo Booth</h1>
+        <h1>MIRA</h1>
         <p className="subtitle">Snap a strip, decorate it, download it — all in your browser.</p>
         <GlassSelect label="Photos per strip" value={stripSize} options={STRIP_SIZES} onChange={changeStripSize} />
       </header>
@@ -316,9 +322,58 @@ export default function App() {
         </aside>
       </main>
 
+      <footer className="site-footer">
+        <div className="footer-glass">
+          <a
+            className="footer-link"
+            href="https://github.com/rizzhan"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="GitHub"
+          >
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path
+                fill="currentColor"
+                d="M12 2.5a9.5 9.5 0 0 0-3 18.5c.5.09.68-.22.68-.48v-1.7c-2.8.6-3.4-1.2-3.4-1.2-.45-1.15-1.1-1.46-1.1-1.46-.9-.62.07-.6.07-.6 1 .07 1.53 1.02 1.53 1.02.9 1.53 2.35 1.09 2.92.83.09-.65.35-1.09.63-1.34-2.22-.25-4.55-1.11-4.55-4.95 0-1.09.39-1.98 1.03-2.68-.1-.25-.45-1.27.1-2.65 0 0 .84-.27 2.75 1.02a9.3 9.3 0 0 1 5 0c1.91-1.29 2.75-1.02 2.75-1.02.55 1.38.2 2.4.1 2.65.64.7 1.03 1.59 1.03 2.68 0 3.85-2.33 4.7-4.55 4.95.36.31.68.92.68 1.85v2.74c0 .26.18.57.68.48A9.5 9.5 0 0 0 12 2.5Z"
+              />
+            </svg>
+          </a>
+          <a
+            className="footer-link"
+            href="https://linkedin.com"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="LinkedIn"
+          >
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path
+                fill="currentColor"
+                d="M5.2 8.6h3v8.9h-3zM6.7 6.2a1.75 1.75 0 1 1 0 3.5 1.75 1.75 0 0 1 0-3.5ZM10.6 8.6h3v1.22c.42-.82 1.45-1.68 2.99-1.68 3.2 0 3.78 2.1 3.78 4.84v5.52h-3v-4.88c0-1.16-.02-2.66-1.62-2.66-1.62 0-1.87 1.26-1.87 2.57v4.97h-3z"
+              />
+            </svg>
+          </a>
+          <a
+            className="footer-link"
+            href="https://instagram.com/r.1zzhan"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="Instagram"
+          >
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path
+                fill="currentColor"
+                d="M12 7.2a4.8 4.8 0 1 0 0 9.6 4.8 4.8 0 0 0 0-9.6Zm0 7.8a3 3 0 1 1 0-6 3 3 0 0 1 0 6ZM17.8 7.1a1.12 1.12 0 1 1-2.24 0 1.12 1.12 0 0 1 2.24 0ZM12 2.5c-2.6 0-2.93.01-3.96.06a5.4 5.4 0 0 0-1.8.34 3.4 3.4 0 0 0-1.23.8 3.4 3.4 0 0 0-.8 1.23 5.4 5.4 0 0 0-.34 1.8C3.82 9.07 3.81 9.4 3.81 12s.01 2.93.06 3.96c.02.65.13 1.23.34 1.8.16.42.43.8.8 1.23.37.37.81.64 1.23.8.57.21 1.15.32 1.8.34 1.03.05 1.36.06 3.96.06s2.93-.01 3.96-.06a5.4 5.4 0 0 0 1.8-.34 3.4 3.4 0 0 0 1.23-.8c.37-.37.64-.81.8-1.23.21-.57.32-1.15.34-1.8.05-1.03.06-1.36.06-3.96s-.01-2.93-.06-3.96a5.4 5.4 0 0 0-.34-1.8 3.4 3.4 0 0 0-.8-1.23 3.4 3.4 0 0 0-1.23-.8 5.4 5.4 0 0 0-1.8-.34C14.93 2.51 14.6 2.5 12 2.5Zm0 1.8c2.56 0 2.86.01 3.87.06.47.02.73.1.9.16.22.09.38.19.55.36.17.17.27.33.36.55.06.17.14.43.16.9.05 1.01.06 1.31.06 3.87s-.01 2.86-.06 3.87c-.02.47-.1.73-.16.9a2.2 2.2 0 0 1-.36.55c-.17.17-.33.27-.55.36-.17.06-.43.14-.9.16-1.01.05-1.31.06-3.87.06s-2.86-.01-3.87-.06c-.47-.02-.73-.1-.9-.16a2.2 2.2 0 0 1-.55-.36 2.2 2.2 0 0 1-.36-.55c-.06-.17-.14-.43-.16-.9-.05-1.01-.06-1.31-.06-3.87s.01-2.86.06-3.87c.02-.47.1-.73.16-.9.09-.22.19-.38.36-.55.17-.17.33-.27.55-.36.17-.06.43-.14.9-.16 1.01-.05 1.31-.06 3.87-.06Z"
+              />
+            </svg>
+          </a>
+
+        </div>
+      </footer>
+
       {previewOpen && (
         <PreviewModal url={previewUrl} busy={previewBusy} onClose={() => setPreviewOpen(false)} />
       )}
-    </div>
+      </div>
+    </>
   )
 }

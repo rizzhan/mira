@@ -200,23 +200,40 @@ export function createSamplePhoto(filterId) {
 }
 
 export function filterThumb(filter) {
-  const w = 48
-  const h = 36
+  const w = 56
+  const h = 42
   const canvas = document.createElement('canvas')
   canvas.width = w
   canvas.height = h
   const ctx = canvas.getContext('2d')
-  const grad = ctx.createLinearGradient(0, 0, w, h)
-  grad.addColorStop(0, '#e05a8a')
-  grad.addColorStop(0.4, '#f2a65a')
-  grad.addColorStop(0.75, '#5ac8a8')
-  grad.addColorStop(1, '#4a7fd4')
-  ctx.fillStyle = grad
+  // Foggy glass minimal base — matches the black theme
+  ctx.fillStyle = '#0c0c0e'
   ctx.fillRect(0, 0, w, h)
-  ctx.fillStyle = 'rgba(45,32,24,0.6)'
+  // soft diffused skin blob
+  ctx.filter = 'blur(7px)'
+  ctx.fillStyle = '#c9a87c'
   ctx.beginPath()
-  ctx.ellipse(w * 0.5, h * 0.46, w * 0.18, h * 0.24, 0, 0, Math.PI * 2)
+  ctx.ellipse(w * 0.5, h * 0.50, w * 0.22, h * 0.30, 0, 0, Math.PI * 2)
   ctx.fill()
+  // subtle cool fog accent
+  ctx.fillStyle = '#6b9ec6'
+  ctx.globalAlpha = 0.42
+  ctx.beginPath()
+  ctx.ellipse(w * 0.32, h * 0.30, w * 0.14, h * 0.16, 0, 0, Math.PI * 2)
+  ctx.fill()
+  // subtle warm fog accent
+  ctx.fillStyle = '#c99a6a'
+  ctx.globalAlpha = 0.38
+  ctx.beginPath()
+  ctx.ellipse(w * 0.70, h * 0.74, w * 0.12, h * 0.12, 0, 0, Math.PI * 2)
+  ctx.fill()
+  ctx.globalAlpha = 1
+  ctx.filter = 'none'
+  // tiny muted chips so saturation shifts still read
+  ctx.fillStyle = '#b55a5a'
+  ctx.fillRect(w * 0.10, h * 0.80, 5, 4)
+  ctx.fillStyle = '#5a7eb5'
+  ctx.fillRect(w * 0.78, h * 0.80, 5, 4)
   if (filter.grade) {
     const img = ctx.getImageData(0, 0, w, h)
     applyGrade(img, filter.grade)
@@ -304,7 +321,7 @@ export async function composeStrip(photos, frameId, stickers, grain = 0) {
       ctx.fillStyle = '#ffffff'
       ctx.font = 'italic 26px Georgia, serif'
       ctx.textAlign = 'center'
-      ctx.fillText('· photo booth ·', W / 2, y + CELL_H + 58)
+      ctx.fillText('· mira ·', W / 2, y + CELL_H + 58)
     }
   })
 
